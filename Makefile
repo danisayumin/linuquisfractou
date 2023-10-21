@@ -6,7 +6,7 @@
 #    By: dsayumi- <dsayumi-@student.42.fr>          +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/10/18 20:22:35 by dsayumi-          #+#    #+#              #
-#    Updated: 2023/10/19 22:12:18 by dsayumi-         ###   ########.fr        #
+#    Updated: 2023/10/20 23:11:00 by dsayumi-         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,7 +18,9 @@ CFLAGS    = -Wextra -Wall -Werror -Wunreachable-code -Ofast -I$(FRACTOL)
 HEADERS    = -I $(LIBMLX)/include -I ./libft
 LIBS    = $(LIBMLX)/fractol/libmlx42.a -ldl -lglfw -pthread -lm
 LIBFT    = ./libft
-SRCS    = fractol.c
+SRCS    = controls.c \
+			main.c \
+			mandelbrot.c
 OBJS    = ${SRCS:.c=.o}
 
 all: libmlx $(NAME)
