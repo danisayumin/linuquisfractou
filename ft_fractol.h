@@ -6,7 +6,7 @@
 /*   By: dsayumi- <dsayumi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:38:22 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/10/21 02:44:56 by dsayumi-         ###   ########.fr       */
+/*   Updated: 2023/10/27 21:22:31 by dsayumi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,12 +28,10 @@
 
 #define MLX_ERROR 1
 
-#define RED_PIXEL 0xFF0000
-
 #endif
 
 void ft_hook(void* param); //manipula eventos do teclado
-void ft_pixels(void* param);
+void ft_pixels(mlx_image_t *image);
 uint32_t ft_pixel(uint32_t r, uint32_t g, uint32_t b, uint32_t a);
 int32_t main(int32_t argc, const char* argv[]);
 
