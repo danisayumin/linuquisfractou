@@ -28,10 +28,8 @@
 //     return (strt);
 // }
 
-int32_t main(int32_t argc, const char* argv[])
+int main()
 {
-	(void) argc;
-	(void) argv;
 	
 	mlx_t* mlx;
 	static mlx_image_t* image;	
@@ -57,14 +55,10 @@ int32_t main(int32_t argc, const char* argv[])
 
     //mlx_put_pixel(image, 100, 100, color);
 
-	 uint32_t    x;
-    uint32_t    y;
 
-    x = 0; 
-    y = 0;
     mlx = mlx_init(1024, 1024, "HAHAHAAHAHHAHHHAHA", true);
     image = mlx_new_image(mlx, 1024, 1024);
-    mlx_image_to_window(mlx, image, x, y);
+    mlx_image_to_window(mlx, image, 0, 0);
 	
 	ft_pixels(image);
 	// mlx_loop_hook(mlx, ft_pixels, image);

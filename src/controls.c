@@ -29,6 +29,7 @@ void ft_pixels(mlx_image_t *image) {
 }
 
 
+
 // void ft_hook(void* param) //manipula eventos do teclado
 // {
 // 	mlx_t* mlx = param;

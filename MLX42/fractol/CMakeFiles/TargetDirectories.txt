@@ -1,7 +1,0 @@
-/nfs/homes/dsayumi-/testefractol/MLX42/fractol/CMakeFiles/install/strip.dir
-/nfs/homes/dsayumi-/testefractol/MLX42/fractol/CMakeFiles/install.dir
-/nfs/homes/dsayumi-/testefractol/MLX42/fractol/CMakeFiles/list_install_components.dir
-/nfs/homes/dsayumi-/testefractol/MLX42/fractol/CMakeFiles/rebuild_cache.dir
-/nfs/homes/dsayumi-/testefractol/MLX42/fractol/CMakeFiles/edit_cache.dir
-/nfs/homes/dsayumi-/testefractol/MLX42/fractol/CMakeFiles/install/local.dir
-/nfs/homes/dsayumi-/testefractol/MLX42/fractol/CMakeFiles/mlx42.dir

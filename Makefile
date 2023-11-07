@@ -1,47 +1,93 @@
-# **************************************************************************** #
-#                                                                              #
-#                                                         :::      ::::::::    #
-#    Makefile                                           :+:      :+:    :+:    #
-#                                                     +:+ +:+         +:+      #
-#    By: dsayumi- <dsayumi-@student.42.fr>          +#+  +:+       +#+         #
-#                                                 +#+#+#+#+#+   +#+            #
-#    Created: 2023/10/18 20:22:35 by dsayumi-          #+#    #+#              #
-#    Updated: 2023/10/20 23:11:00 by dsayumi-         ###   ########.fr        #
-#                                                                              #
-# **************************************************************************** #
+NAME	=	fractoys
 
-NAME    = fractol
-LIBMLX    = MLX42
-FRACTOL    = fractol.h
-CFLAGS    = -Wextra -Wall -Werror -Wunreachable-code -Ofast -I$(FRACTOL)
 
-HEADERS    = -I $(LIBMLX)/include -I ./libft
-LIBS    = $(LIBMLX)/fractol/libmlx42.a -ldl -lglfw -pthread -lm
-LIBFT    = ./libft
-SRCS    = controls.c \
-			main.c \
+CC		=	cc
+CFLAGS	=	-Wall -Wextra -Werror -O3
+DEBUG	=	-g3 -fsanitize=address -DDEBUG_FLAG=1 #-fsanitize=address
+RM		=	rm -f
+
+SRC		=	main.c \
+			controls.c \
+			fractol.c \
 			mandelbrot.c
-OBJS    = ${SRCS:.c=.o}
 
-all: libmlx $(NAME)
+COLOR_INFO = \033[1;36m
+COLOR_SUCCESS = \033[1;32m
+COLOR_RESET = \033[0m
 
-libmlx:
-	@cmake $(LIBMLX) -B $(LIBMLX)/fractol && make -C $(LIBMLX)/fractol -j4
+EMOJI_INFO = 🌈
+EMOJI_SUCCESS = 🎉
+EMOJI_CLEAN = 🧹
+EMOJI_RUN = 🚀
 
-%.o: %.c
-	@$(CC) $(CFLAGS) -o $@ -c $< $(HEADERS)
+SRC		:=	$(SRC:%=src/%)
+OBJ		=	$(SRC:%.c=%.o)
 
-$(NAME): $(OBJS)
-	@make -C $(LIBFT) --silent
-	@$(CC) $(OBJS) $(LIBS) $(HEADERS) ./libft/libft.a -o $(NAME)
+INC_DIR	=	-Isrc
+
+LIBFLAGS 	+=	-L.
+
+
+LIBFLAGS	+= -lmlx42
+MLX42		=	libmlx42.a
+MLX42_DIR	=	MLX42
+LIBRARYS	+=	MLX42.lib
+INC_DIR		+=	-I$(MLX42_DIR)/include/MLX42
+ifeq ($(shell uname), Darwin)
+LIBFLAGS	+= -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/"
+else
+LIBFLAGS	+= -ldl -lglfw -pthread -lm
+endif
+
+
+libs: $(COMPILE) $(LIBRARYS)
+	$(MAKE) $(NAME)
+
+all: $(NAME)
+
+debug: 
+	$(MAKE) DEBUG_FLAG=1 libs
+
+$(LIBRARYS): %.lib:
+	$(MAKE) -C $($*_DIR) $(LIB_DEBUG_FLAG) all
+	@cp -p $($*_DIR)/$($*) .
+
+$(NAME): $(OBJ)
+	@printf "$(COLOR_INFO)$(EMOJI_INFO)  Compiling $(NAME)...$(COLOR_RESET)\t"
+	$(CC) $(CFLAGS) -o $@ $(OBJ) $(LIBFLAGS) $(INC_DIR)
+	@sleep 0.25
+	@printf "✅\n"
+
+$(MLX):
+	@printf "$(COLOR_INFO)$(EMOJI_INFO)  Initializing submodules...$(COLOR_RESET)\t"
+	@git submodule update --init --recursive
+	@sleep 0.25
+	@printf "✅\n"
+	@printf "$(COLOR_INFO)$(EMOJI_INFO)  Building MLX42...$(COLOR_RESET)\t\t"
+	@cmake -S MLX42 -B MLX42/build -DGLFW_FETCH=1
+	@cmake --build MLX42/build --parallel
+	@sleep 0.25
+	@printf "✅\n"
+
+norm:
+	@norminette $(SRCS) incl/fractol.h libft
+
+$(OBJ): %.o: %.c
+	$(CC) $(CFLAGS) -c -o $@ $< $(INC_DIR)
 
 clean:
-	@make clean -C $(LIBFT) --silent
-	@rm -rf $(OBJS)
-	@rm -rf $(LIBMLX)/fractol
+	$(RM) $(OBJ)
 
-fclean: clean
-	@make fclean -C $(LIBFT) --silent
-	@rm -rf $(NAME)
+fclean: clean $(LIBRARYS:%=%.clean)
+	$(RM) $($(LIBRARYS:%.lib=%))
+	$(RM) $(NAME)
 
-re: clean all
+$(LIBRARYS:%=%.clean): %.lib.clean:
+	$(RM) $($*)
+	@$(MAKE) -C $($*_DIR) fclean
+	$(RM) $*.lib
+
+re: fclean
+	$(MAKE) libs
+
+.PHONY: all clean fclean re libs

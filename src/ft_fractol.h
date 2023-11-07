@@ -16,7 +16,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdbool.h>
-#include "MLX42/include/MLX42/MLX42.h"
+#include "../MLX42/include/MLX42/MLX42.h"
 #include <X11/X.h>
 #include <X11/keysym.h>
 
@@ -33,7 +33,7 @@
 void ft_hook(void* param); //manipula eventos do teclado
 void ft_pixels(mlx_image_t *image);
 uint32_t ft_pixel(uint32_t r, uint32_t g, uint32_t b, uint32_t a);
-int32_t main(int32_t argc, const char* argv[]);
+int main();
 
 typedef struct s_data
 {
