@@ -16,11 +16,11 @@ uint32_t ft_pixel(uint32_t r, uint32_t g, uint32_t b, uint32_t a)
 void ft_pixels(mlx_image_t *image) {
     uint32_t fixedColor = 0xFF0000FF;
 
-    uint32_t x = 5;
-    while (x < 10) {
+    uint32_t x = 0;
+    while (x < 512) {
 
-        uint32_t y = 5;
-        while (y < 10) {
+        uint32_t y = 0;
+        while (y < 512) {
             mlx_put_pixel(image, x, y, fixedColor);
             y++;
         }

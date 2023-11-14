@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_fractol.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsayumi- <dsayumi-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: danielasayuminitta <danielasayuminitta@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:38:22 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/10/27 21:22:31 by dsayumi-         ###   ########.fr       */
+/*   Updated: 2023/11/14 02:03:10 by danielasayu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,14 +17,6 @@
 #include <stdlib.h>
 #include <stdbool.h>
 #include "../MLX42/include/MLX42/MLX42.h"
-#include <X11/X.h>
-#include <X11/keysym.h>
-
-#define WIDTH 640
-#define HEIGHT 640
-
-#define WINDOW_WIDTH 600
-#define WINDOW_HEIGHT 300
 
 #define MLX_ERROR 1
 
@@ -35,20 +27,10 @@ void ft_pixels(mlx_image_t *image);
 uint32_t ft_pixel(uint32_t r, uint32_t g, uint32_t b, uint32_t a);
 int main();
 
-typedef struct s_data
-{
-    void	*mlx_ptr;
-    void	*win_ptr;
-}	t_data;
-
 #define GREEN_PIXEL 0xFF00
 
-typedef struct s_rect
+typedef struct
 {
-    int	x;
-    int	y;
-    int width;
-    int height;
-    int color;
-}	t_rect;
-
+    double	real;
+    double	imag;
+} t_complex;

@@ -34,23 +34,25 @@ MLX42_DIR	=	MLX42
 LIBRARYS	+=	MLX42.lib
 INC_DIR		+=	-I$(MLX42_DIR)/include/MLX42
 ifeq ($(shell uname), Darwin)
-LIBFLAGS	+= -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/"
+#LIBFLAGS	+= -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/"
+LIBFLAGS	+= -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
 else
 LIBFLAGS	+= -ldl -lglfw -pthread -lm
 endif
 
 
-libs: $(COMPILE) $(LIBRARYS)
-	$(MAKE) $(NAME)
+# libs: $(COMPILE) $(LIBRARYS)
+# 	$(MAKE) $(NAME)
 
 all: $(NAME)
 
-debug: 
-	$(MAKE) DEBUG_FLAG=1 libs
+# debug: 
+# 	$(MAKE) DEBUG_FLAG=1 libs
 
-$(LIBRARYS): %.lib:
-	$(MAKE) -C $($*_DIR) $(LIB_DEBUG_FLAG) all
-	@cp -p $($*_DIR)/$($*) .
+# $(LIBRARYS): %.lib:
+# 	@echo "00000000000$($*_DIR)"
+# 	cmake -C $($*_DIR) $(LIB_DEBUG_FLAG)
+# 	@cp -p $($*_DIR)/$($*) .
 
 $(NAME): $(OBJ)
 	@printf "$(COLOR_INFO)$(EMOJI_INFO)  Compiling $(NAME)...$(COLOR_RESET)\t"
@@ -90,4 +92,4 @@ $(LIBRARYS:%=%.clean): %.lib.clean:
 re: fclean
 	$(MAKE) libs
 
-.PHONY: all clean fclean re libs
+.PHONY: all clean fclean re
