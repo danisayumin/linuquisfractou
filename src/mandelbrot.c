@@ -12,10 +12,6 @@
 
 #include "ft_fractol.h"
 
-int square(t_complex num)
-{
-}
-
 t_complex multiplica_complexos(t_complex z, t_complex c)
 {
     t_complex result;
@@ -30,4 +26,9 @@ t_complex soma_complexos(t_complex z, t_complex c)
     result.real = z.real + c.real;
     result.imag = z.imag + c.imag;
     return result;
+}
+
+t_complex   ft_mandelbrot(t_complex z, t_complex c)
+{
+    return soma_complexos(multiplica_complexos(z, z), c); // soma(mult(z, z), c)
 }

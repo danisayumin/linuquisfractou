@@ -9,7 +9,8 @@ RM		=	rm -f
 SRC		=	main.c \
 			controls.c \
 			fractol.c \
-			mandelbrot.c
+			mandelbrot.c \
+			utils.c
 
 COLOR_INFO = \033[1;36m
 COLOR_SUCCESS = \033[1;32m
@@ -56,7 +57,7 @@ all: $(NAME)
 
 $(NAME): $(OBJ)
 	@printf "$(COLOR_INFO)$(EMOJI_INFO)  Compiling $(NAME)...$(COLOR_RESET)\t"
-	$(CC) $(CFLAGS) -o $@ $(OBJ) $(LIBFLAGS) $(INC_DIR)
+	$(CC) $(CFLAGS) $(OBJ) $(LIBFLAGS) $(INC_DIR) -o $@
 	@sleep 0.25
 	@printf "✅\n"
 

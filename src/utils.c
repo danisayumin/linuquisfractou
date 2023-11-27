@@ -10,31 +10,42 @@
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef FT_FRACTOL_H
-# define FT_FRACTOL_H
-
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdbool.h>
+#include "ft_fractol.h"
 #include <unistd.h>
-#include "../MLX42/include/MLX42/MLX42.h"
-
-#define MLX_ERROR 1
-
-#endif
-
-typedef struct
+size_t	ft_strlen(const char *s)
 {
-    double	real;
-    double	imag;
-} t_complex;
+	size_t	i;
 
-void ft_hook(void* param); //manipula eventos do teclado
-void ft_pixels(mlx_image_t *image);
-uint32_t ft_pixel(uint32_t r, uint32_t g, uint32_t b, uint32_t a);
-int main(int ac, char **av);
-t_complex multiplica_complexos(t_complex z, t_complex c);
-t_complex soma_complexos(t_complex z, t_complex c);
-void	ft_putstr_fd(char *s, int fd);
-int	ft_strncmp(const char *s1, const char *s2, size_t n);
-t_complex ft_mandelbrot(t_complex c, t_complex v);
+	i = 0;
+	while (s[i] != '\0')
+	{
+		i++;
+	}
+	return (i);
+}
+
+int	ft_strncmp(const char *s1, const char *s2, size_t n)
+{
+	size_t		i;
+
+	i = 0;
+	if (n == 0)
+	{
+		return (0);
+	}
+	while (s1[i] == s2[i] && i < n - 1 && (s1[i] != '\0' && s2[i] != '\0'))
+	{
+		i++;
+	}
+	return ((unsigned char)s1[i] - (unsigned char)s2[i]);
+}
+
+void	ft_putstr_fd(char *s, int fd)
+{
+	size_t	len;
+
+	if (!s)
+		return ;
+	len = ft_strlen(s);
+	(void)!write(fd, s, len);
+}

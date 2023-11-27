@@ -28,7 +28,7 @@
 //     return (strt);
 // }
 
-int main()
+int main(int ac, char **av)
 {
 	
 	mlx_t* mlx;
@@ -55,8 +55,19 @@ int main()
 
     //mlx_put_pixel(image, 100, 100, color);
 
+	if (ac == 2 && !ft_strncmp(av[1], "mandelbrot", 10))
+    	mlx = mlx_init(1024, 1024, "MANDELBROT", true);
+	else if(ac == 4 && !ft_strncmp(av[1], "julia", 5))
+	{
+		//nao sei como fazer julia
+		mlx = mlx_init(1024, 1024, "JULIA", true);
+	}
+	else {
+		mlx = mlx_init(1024, 1024, "FUDEU", true);
+		ft_putstr_fd("DEU RUIM AQUI", 2);
+		// RAISE
+	}
 
-    mlx = mlx_init(1024, 1024, "HAHAHAAHAHHAHHHAHA", true);
     image = mlx_new_image(mlx, 1024, 1024);
     mlx_image_to_window(mlx, image, 0, 0);
 	
