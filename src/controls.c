@@ -13,15 +13,20 @@ uint32_t ft_pixel(uint32_t r, uint32_t g, uint32_t b, uint32_t a)
     return (r << 24 | g << 16 | b << 8 | a);
 }
 
-void ft_pixels(mlx_image_t *image) {
-    uint32_t fixedColor = 0xFF0000FF;
-
+void ft_pixels(mlx_image_t *image) {    
     uint32_t x = 0;
-    while (x < 512) {
-
+    while (x < IMAGE) {
         uint32_t y = 0;
-        while (y < 512) {
-            mlx_put_pixel(image, x, y, fixedColor);
+        while (y < IMAGE) {
+            double new_x = map(x, 0, IMAGE, -2.5, 1.5);
+            double new_y = map(y, 0, IMAGE, -1.5, 2.5);
+
+            t_complex c ;
+            c = (t_complex){new_x, new_y};
+
+            int i = map(if_mandelbrot(c), 0, MAX_ITER, 0, 255);
+            mlx_put_pixel(image, x, y, ft_pixel(i, i, i, 255));
+
             y++;
         }
         x++;

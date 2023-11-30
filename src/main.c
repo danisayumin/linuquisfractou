@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: dsayumi- <dsayumi-@student.42.fr>          +#+  +:+       +#+        */
+/*   By: danielasayuminitta <danielasayuminitta@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:38:05 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/10/27 21:27:08 by dsayumi-         ###   ########.fr       */
+/*   Updated: 2023/11/28 22:46:51 by danielasayu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@
 //     return (strt);
 // }
 
-int main(int ac, char **av)
+int main(int argc, char *argv[])
 {
 	
 	mlx_t* mlx;
@@ -55,9 +55,9 @@ int main(int ac, char **av)
 
     //mlx_put_pixel(image, 100, 100, color);
 
-	if (ac == 2 && !ft_strncmp(av[1], "mandelbrot", 10))
+	if (argc == 2 && !ft_strncmp(argv[1], "mandelbrot", 10))
     	mlx = mlx_init(1024, 1024, "MANDELBROT", true);
-	else if(ac == 4 && !ft_strncmp(av[1], "julia", 5))
+	else if(argc == 4 && !ft_strncmp(argv[1], "julia", 5))
 	{
 		//nao sei como fazer julia
 		mlx = mlx_init(1024, 1024, "JULIA", true);
@@ -68,7 +68,7 @@ int main(int ac, char **av)
 		// RAISE
 	}
 
-    image = mlx_new_image(mlx, 1024, 1024);
+    image = mlx_new_image(mlx, IMAGE, IMAGE);
     mlx_image_to_window(mlx, image, 0, 0);
 	
 	ft_pixels(image);

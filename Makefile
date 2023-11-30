@@ -26,10 +26,8 @@ OBJ		=	$(SRC:%.c=%.o)
 
 INC_DIR	=	-Isrc
 
-LIBFLAGS 	+=	-L.
 
-
-LIBFLAGS	+= -lmlx42
+LIBFLAGS	+= -lmlx42 -L./src
 MLX42		=	libmlx42.a
 MLX42_DIR	=	MLX42
 LIBRARYS	+=	MLX42.lib

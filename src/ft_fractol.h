@@ -6,7 +6,7 @@
 /*   By: danielasayuminitta <danielasayuminitta@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:38:22 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/11/15 04:33:50 by danielasayu      ###   ########.fr       */
+/*   Updated: 2023/11/28 23:55:56 by danielasayu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,8 @@
 #include "../MLX42/include/MLX42/MLX42.h"
 
 #define MLX_ERROR 1
-
+#define IMAGE 1024
+#define MAX_ITER 100
 #endif
 
 typedef struct
@@ -38,3 +39,5 @@ t_complex soma_complexos(t_complex z, t_complex c);
 void	ft_putstr_fd(char *s, int fd);
 int	ft_strncmp(const char *s1, const char *s2, size_t n);
 t_complex ft_mandelbrot(t_complex c, t_complex v);
+double map(int num, double in_min, double in_max, double out_min, double out_max);
+int if_mandelbrot(t_complex c);

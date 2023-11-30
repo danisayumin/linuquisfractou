@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_fractol.h                                       :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: danielasayuminitta <danielasayuminitta@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:38:22 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/11/15 04:33:50 by danielasayu      ###   ########.fr       */
+/*   Updated: 2023/11/28 23:51:24 by danielasayu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,3 +49,10 @@ void	ft_putstr_fd(char *s, int fd)
 	len = ft_strlen(s);
 	(void)!write(fd, s, len);
 }
+
+double map(int num, double in_min, double in_max, double out_min, double out_max)
+{
+	num = (double)num;
+	return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+}
+
