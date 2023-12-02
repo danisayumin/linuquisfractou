@@ -13,7 +13,7 @@ uint32_t ft_pixel(uint32_t r, uint32_t g, uint32_t b, uint32_t a)
     return (r << 24 | g << 16 | b << 8 | a);
 }
 
-void ft_pixels(mlx_image_t *image) {    
+void ft_pixels(mlx_image_t *image, char *argv[]) {    
     uint32_t x = 0;
     while (x < IMAGE) {
         uint32_t y = 0;
@@ -24,7 +24,7 @@ void ft_pixels(mlx_image_t *image) {
             t_complex c ;
             c = (t_complex){new_x, new_y};
 
-            int i = map(if_mandelbrot(c), 0, MAX_ITER, 0, 255);
+            int i = map(ft_calculate_mandelbrot(c, (double) *argv[1], (double) *argv[2]), 0, MAX_ITER, 0, 255);
             mlx_put_pixel(image, x, y, ft_pixel(i, i, i, 255));
 
             y++;

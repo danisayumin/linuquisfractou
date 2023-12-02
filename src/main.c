@@ -6,7 +6,7 @@
 /*   By: danielasayuminitta <danielasayuminitta@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:38:05 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/11/28 22:46:51 by danielasayu      ###   ########.fr       */
+/*   Updated: 2023/12/01 21:22:51 by danielasayu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,23 +55,28 @@ int main(int argc, char *argv[])
 
     //mlx_put_pixel(image, 100, 100, color);
 
-	if (argc == 2 && !ft_strncmp(argv[1], "mandelbrot", 10))
-    	mlx = mlx_init(1024, 1024, "MANDELBROT", true);
+	if (argc == 2 && !ft_strncmp(argv[1], "mandelbrot", 10)){
+		mlx = mlx_init(1024, 1024, "MANDELBROT", true);
+		image = mlx_new_image(mlx, IMAGE, IMAGE);
+		mlx_image_to_window(mlx, image, 0, 0);
+		ft_pixels(image, argv);
+	}	
 	else if(argc == 4 && !ft_strncmp(argv[1], "julia", 5))
 	{
 		//nao sei como fazer julia
 		mlx = mlx_init(1024, 1024, "JULIA", true);
+		image = mlx_new_image(mlx, IMAGE, IMAGE);
+		mlx_image_to_window(mlx, image, 0, 0);
+		ft_pixels(image, argv);
 	}
 	else {
 		mlx = mlx_init(1024, 1024, "FUDEU", true);
 		ft_putstr_fd("DEU RUIM AQUI", 2);
+		image = mlx_new_image(mlx, IMAGE, IMAGE);
+		mlx_image_to_window(mlx, image, 0, 0);
+		ft_pixels(image, argv);
 		// RAISE
 	}
-
-    image = mlx_new_image(mlx, IMAGE, IMAGE);
-    mlx_image_to_window(mlx, image, 0, 0);
-	
-	ft_pixels(image);
 	// mlx_loop_hook(mlx, ft_pixels, image);
 	// mlx_loop_hook(mlx, ft_hook, mlx);
 	// mlx_image_to_window(mlx, image, 0, 0);
