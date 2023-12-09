@@ -81,7 +81,14 @@ void ft_pixels(t_image_info *info)
             t_complex c;
             c = (t_complex){new_x, new_y};
 
-            int i = if_mandelbrot(c);
+            int i;
+            if (info->current_fractal == MANDELBROT)
+                i = if_mandelbrot(c);
+            else if (info->current_fractal == JULIA)
+                i = if_julia(info->julia_constant, c, MAX_ITER);
+            else
+                i = 0;
+
             t_color interpolated_color = get_interpolated_color(i);
 
             mlx_put_pixel(info->image, x, y, ft_pixel(interpolated_color.r, interpolated_color.g, interpolated_color.b, 255));

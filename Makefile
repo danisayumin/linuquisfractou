@@ -11,7 +11,8 @@ SRC		=	main.c \
 			fractol.c \
 			mandelbrot.c \
 			ft_colors.c \
-			utils.c
+			utils.c \
+			julia.c
 
 COLOR_INFO = \033[1;36m
 COLOR_SUCCESS = \033[1;32m

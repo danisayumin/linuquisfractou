@@ -6,7 +6,7 @@
 /*   By: danielasayuminitta <danielasayuminitta@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:38:22 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/12/09 00:45:09 by danielasayu      ###   ########.fr       */
+/*   Updated: 2023/12/09 11:12:45 by danielasayu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,11 @@ typedef struct s_color {
     uint32_t b;
 } t_color;
 
+typedef enum {
+    MANDELBROT,
+    JULIA
+} t_fractal_type;
+
 typedef struct s_image_info
 {
     mlx_t *mlx;
@@ -47,6 +52,8 @@ typedef struct s_image_info
     double scale_y;
     double offset_x;
     double offset_y;
+	t_fractal_type current_fractal;
+	t_complex julia_constant;
 } t_image_info;
 
 void ft_pixels(t_image_info *info);
@@ -60,4 +67,6 @@ double map(int num, double in_min, double in_max, double out_min, double out_max
 int ft_calculate_mandelbrot(t_complex c, double real_part, double complex_part);
 int if_mandelbrot(t_complex c);
 void ft_key_hook(mlx_key_data_t key, t_image_info *info);
+t_complex ft_julia(t_complex z, t_complex c);
+int if_julia(t_complex c, t_complex z, int max_iter);
 

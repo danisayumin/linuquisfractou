@@ -6,7 +6,7 @@
 /*   By: danielasayuminitta <danielasayuminitta@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:38:05 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/12/09 00:45:03 by danielasayu      ###   ########.fr       */
+/*   Updated: 2023/12/09 11:44:43 by danielasayu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ int main(int argc, char *argv[])
         .scale_y = 1.0,
         .offset_x = 0.0,
         .offset_y = 0.0,
+        .current_fractal = (argc == 4 && !ft_strncmp(argv[1], "julia", 5)) ? JULIA : MANDELBROT,
+        .julia_constant = {0.285, 0.01},
     };
 
     // Chama a função de renderização inicial
@@ -49,11 +51,11 @@ int main(int argc, char *argv[])
 
     // Configura o hook de teclado
     mlx_key_hook(mlx, (mlx_keyfunc)ft_key_hook, &info);
-	#ifdef MLX42
-		mlx_put_image(mlx, image, 0, 0); //n sei se funfa
-	#else
-		mlx_image_to_window(mlx, image, 0, 0);
-	#endif
+    #ifdef MLX42
+        mlx_put_image(mlx, image, 0, 0); //n sei se funfa
+    #else
+        mlx_image_to_window(mlx, image, 0, 0);
+    #endif
 
     mlx_loop(mlx);
 
