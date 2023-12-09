@@ -59,5 +59,5 @@ t_complex ft_mandelbrot(t_complex c, t_complex v);
 double map(int num, double in_min, double in_max, double out_min, double out_max);
 int ft_calculate_mandelbrot(t_complex c, double real_part, double complex_part);
 int if_mandelbrot(t_complex c);
-int ft_key_hook(int key, t_image_info *info);
+void ft_key_hook(mlx_key_data_t key, t_image_info *info);
 

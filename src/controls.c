@@ -12,20 +12,19 @@
 
 #include "ft_fractol.h"
 
-int ft_key_hook(int key, t_image_info *info)
+void ft_key_hook(mlx_key_data_t key, t_image_info *info)
 {
-    if (key == KEY_PLUS)
+    if (key.key == MLX_KEY_A)
     {
         // Zoom in
         info->scale_x *= 0.9;
         info->scale_y *= 0.9;
     }
-    else if (key == KEY_MINUS)
+    else if (key.key == MLX_KEY_S)
     {
         // Zoom out
         info->scale_x /= 0.9;
         info->scale_y /= 0.9;
     }
     ft_pixels(info);
-    return 0;
 }
