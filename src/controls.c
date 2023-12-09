@@ -26,5 +26,25 @@ void ft_key_hook(mlx_key_data_t key, t_image_info *info)
         info->scale_x /= 0.9;
         info->scale_y /= 0.9;
     }
+    else if (key.key == MLX_KEY_I)
+    {
+        info->offset_y -= info->scale_y * 0.05;
+    }
+    else if (key.key == MLX_KEY_K)
+    {
+        info->offset_y += info->scale_y * 0.05;
+    }
+    else if (key.key == MLX_KEY_J)
+    {
+        info->offset_x -= info->scale_x * 0.05;
+    }
+    else if (key.key == MLX_KEY_L)
+    {
+        info->offset_x += info->scale_x * 0.05;
+    }
+    else if (key.key == MLX_KEY_ESCAPE){
+        mlx_close_window(info->mlx);
+        exit(EXIT_SUCCESS);
+    }
     ft_pixels(info);
 }
