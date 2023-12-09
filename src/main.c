@@ -6,81 +6,57 @@
 /*   By: danielasayuminitta <danielasayuminitta@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:38:05 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/12/01 21:22:51 by danielasayu      ###   ########.fr       */
+/*   Updated: 2023/12/09 00:45:03 by danielasayu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fractol.h"
 
-// t_win_data    open_window(uint32_t win_width, uint32_t win_height)
-// {
-//     uint32_t    x;
-//     uint32_t    y;
-//     t_win_data    strt;
-
-//     x = 0; 
-//     y = 0;
-//     strt.win_width = win_width;
-//     strt.win_height = win_height;
-//     strt.mlx = mlx_init(win_width, win_height, "CS:GO", true);
-//     strt.img = mlx_new_image(strt.mlx, win_width, win_height);
-//     mlx_image_to_window(strt.mlx, strt.img, x, y);
-//     return (strt);
-// }
-
 int main(int argc, char *argv[])
 {
-	
-	mlx_t* mlx;
-	static mlx_image_t* image;	
-	//uint32_t color = 0xFF0000FF;
-	
-	// if (!(mlx = mlx_init(WIDTH, HEIGHT, "MLX42", true)))
-	// {
-	// 	puts(mlx_strerror(mlx_errno));
-	// 	return(EXIT_FAILURE);
-	// }
-	// if (!(image = mlx_new_image(mlx, 1920, 1080)))
-	// {
-	// 	mlx_close_window(mlx);
-	// 	puts(mlx_strerror(mlx_errno));
-	// 	return(EXIT_FAILURE);
-	// }
-	// if (mlx_image_to_window(mlx, image, 0, 0) == -1)
-	// {
-	// 	mlx_close_window(mlx);
-	// 	puts(mlx_strerror(mlx_errno));
-	// 	return(EXIT_FAILURE);
-	// }
+    mlx_t *mlx;
+    mlx_image_t *image;
 
-    //mlx_put_pixel(image, 100, 100, color);
+    if (argc == 2 && !ft_strncmp(argv[1], "mandelbrot", 10))
+        mlx = mlx_init(1024, 1024, "MANDELBROT", true);
+    else if (argc == 4 && !ft_strncmp(argv[1], "julia", 5))
+    {
+        // Criação da janela para o conjunto de Julia
+        mlx = mlx_init(1024, 1024, "JULIA", true);
+    }
+    else
+    {
+        // Caso de erro
+        mlx = mlx_init(1024, 1024, "FUDEU", true);
+        ft_putstr_fd("DEU RUIM AQUI", 2);
+        return (EXIT_FAILURE);
+    }
 
-	if (argc == 2 && !ft_strncmp(argv[1], "mandelbrot", 10)){
-		mlx = mlx_init(1024, 1024, "MANDELBROT", true);
-		image = mlx_new_image(mlx, IMAGE, IMAGE);
+    image = mlx_new_image(mlx, IMAGE, IMAGE);
+
+    // Configurações iniciais da imagem
+    t_image_info info = {
+        .mlx = mlx,
+        .image = image,
+        .scale_x = 1.0,
+        .scale_y = 1.0,
+        .offset_x = 0.0,
+        .offset_y = 0.0,
+    };
+
+    // Chama a função de renderização inicial
+    ft_pixels(&info);
+
+    // Configura o hook de teclado
+    mlx_key_hook(mlx, (mlx_keyfunc)ft_key_hook, &info);
+	#ifdef MLX42
+		mlx_put_image(mlx, image, 0, 0); //n sei se funfa
+	#else
 		mlx_image_to_window(mlx, image, 0, 0);
-		ft_pixels(image, argv);
-	}	
-	else if(argc == 4 && !ft_strncmp(argv[1], "julia", 5))
-	{
-		//nao sei como fazer julia
-		mlx = mlx_init(1024, 1024, "JULIA", true);
-		image = mlx_new_image(mlx, IMAGE, IMAGE);
-		mlx_image_to_window(mlx, image, 0, 0);
-		ft_pixels(image, argv);
-	}
-	else {
-		mlx = mlx_init(1024, 1024, "FUDEU", true);
-		ft_putstr_fd("DEU RUIM AQUI", 2);
-		image = mlx_new_image(mlx, IMAGE, IMAGE);
-		mlx_image_to_window(mlx, image, 0, 0);
-		ft_pixels(image, argv);
-		// RAISE
-	}
-	// mlx_loop_hook(mlx, ft_pixels, image);
-	// mlx_loop_hook(mlx, ft_hook, mlx);
-	// mlx_image_to_window(mlx, image, 0, 0);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
-	return (EXIT_SUCCESS);
+	#endif
+
+    mlx_loop(mlx);
+
+    mlx_terminate(mlx);
+    return (EXIT_SUCCESS);
 }

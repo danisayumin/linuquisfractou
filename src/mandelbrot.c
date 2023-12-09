@@ -6,7 +6,7 @@
 /*   By: danielasayuminitta <danielasayuminitta@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 20:16:28 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/12/01 21:15:09 by danielasayu      ###   ########.fr       */
+/*   Updated: 2023/11/28 23:56:12 by danielasayu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,13 +33,13 @@ t_complex   ft_mandelbrot(t_complex z, t_complex c)
     return soma_complexos(multiplica_complexos(z, z), c); // soma(mult(z, z), c)
 }
 
-int ft_calculate_mandelbrot(t_complex c, double real_part, double complex_part)
+int if_mandelbrot(t_complex c)
 {
     t_complex z;
     int i;
 
-    z.real = real_part;
-    z.imag = complex_part;
+    z.real = 0;
+    z.imag = 0;
     i = 0;
     while (i < MAX_ITER)
     {
