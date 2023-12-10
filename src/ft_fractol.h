@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_fractol.h                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danielasayuminitta <danielasayuminitta@    +#+  +:+       +#+        */
+/*   By: dsayumi- <dsayumi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:38:22 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/12/10 01:42:36 by danielasayu      ###   ########.fr       */
+/*   Updated: 2023/12/10 16:24:35 by dsayumi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,19 +60,21 @@ typedef struct range
 	double	max;
 }	t_range;
 
-void		t_pixels(t_image_info *info);
-uint32_t	ft_pixel(uint32_t r, uint32_t g, uint32_t b);
-t_complex	multiplica_complexos(t_complex z, t_complex c);
-t_complex	soma_complexos(t_complex z, t_complex c);
-void		ft_putstr_fd(char *s, int fd);
-int			ft_strncmp(const char *s1, const char *s2, size_t n);
-t_complex	ft_mandelbrot(t_complex c, t_complex v);
-double		map(int num, t_range in, t_range out);
-int			ft_calculate_mandelbrot(t_complex c, double real_part,
-				double complex_part);
-int			if_mandelbrot(t_complex c);
-void		ft_key_hook(mlx_key_data_t key, t_image_info *info);
-t_complex	ft_julia(t_complex z, t_complex c);
-int			if_julia(t_complex c, t_complex z, int max_iter);
-
+void				ft_pixels(t_image_info *info);
+uint32_t			ft_pixel(uint32_t r, uint32_t g, uint32_t b);
+t_complex			multiplica_complexos(t_complex z, t_complex c);
+t_complex			soma_complexos(t_complex z, t_complex c);
+void				ft_putstr_fd(char *s, int fd);
+int					ft_strncmp(const char *s1, const char *s2, size_t n);
+t_complex			ft_mandelbrot(t_complex c, t_complex v);
+double				map(int num, t_range in, t_range out);
+int					ft_calculate_mandelbrot(t_complex c, double real_part,
+						double complex_part);
+int					if_mandelbrot(t_complex c);
+void				ft_key_hook(mlx_key_data_t key, t_image_info *info);
+t_complex			ft_julia(t_complex z, t_complex c);
+int					if_julia(t_complex c, t_complex z, int max_iter);
+t_fractal_type		determine_fractal_type(int argc, char *argv[]);
+void				ft_verify_fractal(uint32_t x, uint32_t y,
+						t_image_info *info, t_color palette[]);
 #endif

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_colors.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: danielasayuminitta <danielasayuminitta@    +#+  +:+       +#+        */
+/*   By: dsayumi- <dsayumi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 01:06:28 by danielasayu       #+#    #+#             */
-/*   Updated: 2023/12/10 03:04:16 by danielasayu      ###   ########.fr       */
+/*   Updated: 2023/12/10 16:24:27 by dsayumi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,14 +70,14 @@ void	ft_pixels(t_image_info *info)
 		y = 0;
 		while (y < IMAGE)
 		{
-			ft_veriry_fractal(x, y, info, palette);
+			ft_verify_fractal(x, y, info, palette);
 			y++;
 		}
 		x++;
 	}
 }
 
-void	ft_veriry_fractal(uint32_t x, uint32_t y,
+void	ft_verify_fractal(uint32_t x, uint32_t y,
 			t_image_info *info, t_color palette[])
 {
 	t_color		interpolated_color;
