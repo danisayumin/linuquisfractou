@@ -27,32 +27,29 @@ static	void	initialize_image(t_image_info *info)
 	mlx_image_to_window(info->mlx, info->image, 0, 0);
 }
 
-void	initialize_info(int argc, char *argv[], mlx_t *mlx)
+void	initialize_info(t_image_info *info, int argc, char *argv[])
 {
-	t_image_info	info;
-
-	info = (t_image_info){.mlx = mlx, .image = NULL,
-		.scale_x = 1.0, .scale_y = 1.0,
-		.offset_x = 0.0, .offset_y = 0.0,
-		.current_fractal = determine_fractal_type(argc, argv),
-		.julia_constant = {0.285, 0.01},
-	};
-	if (info.current_fractal == JULIA)
+	info->mlx = NULL;
+	info->image = NULL;
+	info->scale_x = 1.0;
+	info->scale_y = 1.0;
+	info->offset_x = 0.0;
+	info->offset_y = 0.0;
+	info->current_fractal = determine_fractal_type(argc, argv);
+	if (info->current_fractal == JULIA)
 	{
 		printf("DEBUG: Entrou no bloco JULIA\n");
 		if (argc >= 4)
 		{
 			printf("DEBUG: Entrou no bloco JULIA argc >= 4\n");
-			info.julia_constant.real = atof(argv[3]);
+			info->julia_constant.real = atof(argv[3]);
 		}
 		if (argc >= 5)
 		{
 			printf("DEBUG: Entrou no bloco JULIA argc >= 5\n");
-			info.julia_constant.imag = atof(argv[4]);
+			info->julia_constant.imag = atof(argv[4]);
 		}
 	}
-	initialize_image(&info);
-	mlx_key_hook(mlx, (mlx_keyfunc)ft_key_hook, &info);
 }
 
 t_fractal_type	determine_fractal_type(int argc, char *argv[])
@@ -73,19 +70,23 @@ t_fractal_type	determine_fractal_type(int argc, char *argv[])
 
 int	main(int argc, char *argv[])
 {
-	mlx_t	*mlx;
+	t_image_info	*info;
+
+	info = malloc(sizeof(t_image_info));
+	initialize_info(info, argc, argv);
 
 	if (argc != 2 && !(argc == 4 && !ft_strncmp(argv[1], "julia", 5)))
 		return (EXIT_FAILURE);
-	mlx = mlx_init(1024, 1024,
+	info->mlx = mlx_init(1024, 1024,
 			fractal_type_to_str(determine_fractal_type(argc, argv)), true);
-	if (!mlx)
+	if (!info->mlx)
 	{
 		ft_putstr_fd("DEU RUIM AQUI", 2);
 		return (EXIT_FAILURE);
 	}
-	initialize_info(argc, argv, mlx);
-	mlx_loop(mlx);
-	mlx_terminate(mlx);
+	initialize_image(info);
+	mlx_key_hook(info->mlx, (mlx_keyfunc)ft_key_hook, info);
+	mlx_loop(info->mlx);
+	mlx_terminate(info->mlx);
 	return (EXIT_SUCCESS);
 }
