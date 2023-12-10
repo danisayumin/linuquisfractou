@@ -1,122 +1,95 @@
-// -----------------------------------------------------------------------------
-// Codam Coding College, Amsterdam @ 2022-2023 by W2Wizard.
-// See README in the root project for more information.
-// -----------------------------------------------------------------------------
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   ft_colors.c                                        :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: danielasayuminitta <danielasayuminitta@    +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/12/10 01:06:28 by danielasayu       #+#    #+#             */
+/*   Updated: 2023/12/10 03:04:16 by danielasayu      ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
 
 #include "ft_fractol.h"
 
-uint32_t ft_pixel(uint32_t r, uint32_t g, uint32_t b, uint32_t a)
+uint32_t	ft_pixel(uint32_t r, uint32_t g, uint32_t b)
 {
-    return (r << 24 | g << 16 | b << 8 | a);
+	return (r << 24 | g << 16 | b << 8 | 255);
 }
 
-t_color color_palette[] = {
-    {0, 0, 0},         // Cor mais escura
-    {0, 0, 128},       // Azul escuro
-    {0, 0, 255},       // Azul médio
-    {135, 206, 250},   // Azul claro
-    {173, 216, 230},   
-    {240, 248, 255},    
-    {100, 149, 237},    
-    {0, 191, 255},      
-    {70, 130, 180},     
-    {30, 144, 255},     
-    {0, 0, 205},        
-    {0, 0, 139},        
-    {0, 0, 128},        
-    {0, 0, 139},        
-    {0, 0, 128},        
-    {0, 0, 139},        
-    {0, 0, 128},        
-    {0, 0, 139},        
-    {0, 0, 128},        
-    {0, 0, 139},        
-    {0, 0, 128},        
-    {0, 0, 139},       
-    {0, 0, 128},
-    {255, 255, 255}    
-};
+void	generate_gradient_palette(t_color colors[], int num_colors,
+		t_color palette[])
+	{
+	float	step_r;
+	float	step_b;
+	float	step_g;
+	int		i;
 
-#define NUM_COLORS (sizeof(color_palette) / sizeof(color_palette[0]))
-
-t_color interpolate_colors(t_color color1, t_color color2, double factor)
-{
-    t_color result;
-
-    if (factor < 0.0)
-        factor = 0.0;
-    if (factor > 1.0)
-        factor = 1.0;
-
-    result.r = (1.0 - factor) * color1.r + factor * color2.r;
-    result.g = (1.0 - factor) * color1.g + factor * color2.g;
-    result.b = (1.0 - factor) * color1.b + factor * color2.b;
-
-    return result;
+	step_r = (float)(colors[1].r - colors[0].r) / (num_colors - 1);
+	step_g = (float)(colors[1].g - colors[0].g) / (num_colors - 1);
+	step_b = (float)(colors[1].b - colors[0].b) / (num_colors - 1);
+	i = 0;
+	while (i < num_colors)
+	{
+		palette[i] = (t_color){(int)(colors[0].r + i * step_r),
+			(int)(colors[0].g + i * step_g),
+			(int)(colors[0].b + i * step_b)};
+		i++;
+	}
 }
 
-t_color get_interpolated_color(int i)
+t_complex	ft_init_c(uint32_t x, uint32_t y, t_image_info *info)
 {
-    int num_colors = NUM_COLORS - 1;
-    int index1 = i / num_colors;
-    int index2 = (index1 + 1) % NUM_COLORS;
-    double factor = (i % num_colors) / (double)num_colors;
+	t_range	in_x ;
+	t_range	in_y ;
+	t_range	out_x;
+	t_range	out_y;
 
-    t_color color1 = color_palette[index1];
-    t_color color2 = color_palette[index2];
-
-    return interpolate_colors(color1, color2, factor);
+	in_x = (t_range){0, IMAGE};
+	in_y = (t_range){0, IMAGE};
+	out_x = (t_range){-2.5 / info->scale_x + info->offset_x,
+		1.5 / info->scale_x + info->offset_x};
+	out_y = (t_range){-1.5 / info->scale_y + info->offset_y,
+		2.5 / info->scale_y + info->offset_y};
+	return ((t_complex){map(x, in_x, out_x), map(y, in_y, out_y)});
 }
 
-void ft_pixels(t_image_info *info)
+void	ft_pixels(t_image_info *info)
 {
-    uint32_t x = 0;
-    while (x < IMAGE)
-    {
-        uint32_t y = 0;
-        while (y < IMAGE)
-        {
-            double new_x = map(x, 0, IMAGE, -2.5 / info->scale_x + info->offset_x, 1.5 / info->scale_x + info->offset_x);
-            double new_y = map(y, 0, IMAGE, -1.5 / info->scale_y + info->offset_y, 2.5 / info->scale_y + info->offset_y);
-            t_complex c;
-            c = (t_complex){new_x, new_y};
+	t_color		*colors;
+	t_color		palette[42];
+	uint32_t	x;
+	uint32_t	y;
 
-            int i;
-            if (info->current_fractal == MANDELBROT)
-                i = if_mandelbrot(c);
-            else if (info->current_fractal == JULIA)
-                i = if_julia(info->julia_constant, c, MAX_ITER);
-            else
-                i = 0;
-
-            t_color interpolated_color = get_interpolated_color(i);
-
-            mlx_put_pixel(info->image, x, y, ft_pixel(interpolated_color.r, interpolated_color.g, interpolated_color.b, 255));
-
-            y++;
-        }
-        x++;
-    }
+	colors = (t_color[5]){{0, 0, 0}, {0, 255, 255}, {255, 0, 255},
+	{255, 255, 0}, {255, 255, 255}};
+	x = 0;
+	generate_gradient_palette(colors, 42, palette);
+	while (x < IMAGE)
+	{
+		y = 0;
+		while (y < IMAGE)
+		{
+			ft_veriry_fractal(x, y, info, palette);
+			y++;
+		}
+		x++;
+	}
 }
 
+void	ft_veriry_fractal(uint32_t x, uint32_t y,
+			t_image_info *info, t_color palette[])
+{
+	t_color		interpolated_color;
+	int			i;
 
-
-// void ft_hook(void* param) //manipula eventos do teclado
-// {
-// 	mlx_t* mlx = param;
-
-// 	if (mlx_is_key_down(mlx, MLX_KEY_ESCAPE))
-// 		mlx_close_window(mlx);
-// 	if (mlx_is_key_down(mlx, MLX_KEY_UP))
-// 		image->instances[0].y -= 5;
-// 	if (mlx_is_key_down(mlx, MLX_KEY_DOWN))
-// 		image->instances[0].y += 5;
-// 	if (mlx_is_key_down(mlx, MLX_KEY_LEFT))
-// 		image->instances[0].x -= 5;
-// 	if (mlx_is_key_down(mlx, MLX_KEY_RIGHT))
-// 		image->instances[0].x += 5;
-// }
-
-/* -----------------------------------------------------------------------------
-https://github.com/danisayumin/Fractol.git
-*/
+	if (info->current_fractal == MANDELBROT)
+		i = if_mandelbrot(ft_init_c(x, y, info));
+	else if (info->current_fractal == JULIA)
+		i = if_julia(info->julia_constant, ft_init_c(x, y, info), MAX_ITER);
+	else
+		i = 0;
+	interpolated_color = palette[i];
+	mlx_put_pixel(info->image, x, y, ft_pixel(interpolated_color.r,
+			interpolated_color.g, interpolated_color.b));
+}

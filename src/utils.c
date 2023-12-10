@@ -6,12 +6,12 @@
 /*   By: danielasayuminitta <danielasayuminitta@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:38:22 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/11/28 23:51:24 by danielasayu      ###   ########.fr       */
+/*   Updated: 2023/12/10 00:19:05 by danielasayu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fractol.h"
-#include <unistd.h>
+
 size_t	ft_strlen(const char *s)
 {
 	size_t	i;
@@ -50,9 +50,7 @@ void	ft_putstr_fd(char *s, int fd)
 	(void)!write(fd, s, len);
 }
 
-double map(int num, double in_min, double in_max, double out_min, double out_max)
+double	map(int num, t_range in, t_range out)
 {
-	num = (double)num;
-	return (num - in_min) * (out_max - out_min) / (in_max - in_min) + out_min;
+	return ((num - in.min) * (out.max - out.min) / (in.max - in.min) + out.min);
 }
-

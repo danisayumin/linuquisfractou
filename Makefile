@@ -8,7 +8,6 @@ RM		=	rm -f
 
 SRC		=	main.c \
 			controls.c \
-			fractol.c \
 			mandelbrot.c \
 			ft_colors.c \
 			utils.c \

@@ -6,59 +6,55 @@
 /*   By: danielasayuminitta <danielasayuminitta@    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:38:05 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/12/09 11:44:43 by danielasayu      ###   ########.fr       */
+/*   Updated: 2023/12/10 02:52:45 by danielasayu      ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "ft_fractol.h"
 
-int main(int argc, char *argv[])
+static	void	initialize_image(t_image_info *info)
 {
-    mlx_t *mlx;
-    mlx_image_t *image;
+	info->image = mlx_new_image(info->mlx, IMAGE, IMAGE);
+	ft_pixels(info);
+	mlx_image_to_window(info->mlx, info->image, 0, 0);
+}
 
-    if (argc == 2 && !ft_strncmp(argv[1], "mandelbrot", 10))
-        mlx = mlx_init(1024, 1024, "MANDELBROT", true);
-    else if (argc == 4 && !ft_strncmp(argv[1], "julia", 5))
-    {
-        // Criação da janela para o conjunto de Julia
-        mlx = mlx_init(1024, 1024, "JULIA", true);
-    }
-    else
-    {
-        // Caso de erro
-        mlx = mlx_init(1024, 1024, "FUDEU", true);
-        ft_putstr_fd("DEU RUIM AQUI", 2);
-        return (EXIT_FAILURE);
-    }
+void	initialize_info(int argc, mlx_t *mlx)
+{
+	t_image_info	info;
 
-    image = mlx_new_image(mlx, IMAGE, IMAGE);
+	info = (t_image_info){.mlx = mlx, .image = NULL,
+		.scale_x = 1.0, .scale_y = 1.0,
+		.offset_x = 0.0, .offset_y = 0.0,
+		.current_fractal = ternarie(JULIA, MANDELBROT, (argc == 4)),
+		.julia_constant = {0.285, 0.01},
+	};
+	initialize_image(&info);
+	mlx_key_hook(mlx, (mlx_keyfunc)ft_key_hook, &info);
+}
 
-    // Configurações iniciais da imagem
-    t_image_info info = {
-        .mlx = mlx,
-        .image = image,
-        .scale_x = 1.0,
-        .scale_y = 1.0,
-        .offset_x = 0.0,
-        .offset_y = 0.0,
-        .current_fractal = (argc == 4 && !ft_strncmp(argv[1], "julia", 5)) ? JULIA : MANDELBROT,
-        .julia_constant = {0.285, 0.01},
-    };
+char	*ternarie(char *a, char *b, bool c)
+{
+	if (c)
+		return (a);
+	return (b);
+}
 
-    // Chama a função de renderização inicial
-    ft_pixels(&info);
+int	main(int argc, char *argv[])
+{
+	mlx_t	*mlx;
 
-    // Configura o hook de teclado
-    mlx_key_hook(mlx, (mlx_keyfunc)ft_key_hook, &info);
-    #ifdef MLX42
-        mlx_put_image(mlx, image, 0, 0); //n sei se funfa
-    #else
-        mlx_image_to_window(mlx, image, 0, 0);
-    #endif
-
-    mlx_loop(mlx);
-
-    mlx_terminate(mlx);
-    return (EXIT_SUCCESS);
+	if (argc != 2 && !(argc == 4 && !ft_strncmp(argv[1], "julia", 5)))
+		return (EXIT_FAILURE);
+	mlx = mlx_init(1024, 1024, ternarie("JULIA", "MANDELBROT",
+				(argc == 4)), true);
+	if (!mlx)
+	{
+		ft_putstr_fd("DEU RUIM AQUI", 2);
+		return (EXIT_FAILURE);
+	}
+	initialize_info(argc, mlx);
+	mlx_loop(mlx);
+	mlx_terminate(mlx);
+	return (EXIT_SUCCESS);
 }
