@@ -6,7 +6,7 @@
 /*   By: dsayumi- <dsayumi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:38:05 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/12/10 16:20:03 by dsayumi-         ###   ########.fr       */
+/*   Updated: 2023/12/10 17:07:45 by dsayumi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,38 @@ void	initialize_info(int argc, char *argv[], mlx_t *mlx)
 		.current_fractal = determine_fractal_type(argc, argv),
 		.julia_constant = {0.285, 0.01},
 	};
+	if (info.current_fractal == JULIA)
+	{
+		printf("DEBUG: Entrou no bloco JULIA\n");
+		if (argc >= 4)
+		{
+			printf("DEBUG: Entrou no bloco JULIA argc >= 4\n");
+			info.julia_constant.real = atof(argv[3]);
+		}
+		if (argc >= 5)
+		{
+			printf("DEBUG: Entrou no bloco JULIA argc >= 5\n");
+			info.julia_constant.imag = atof(argv[4]);
+		}
+	}
 	initialize_image(&info);
 	mlx_key_hook(mlx, (mlx_keyfunc)ft_key_hook, &info);
 }
 
 t_fractal_type	determine_fractal_type(int argc, char *argv[])
 {
-	if (argc == 4 && !ft_strncmp(argv[1], "julia", 5))
+	printf("DEBUG: argc = %d, argv[1] = %s\n", argc, argv[1]);
+	if ((argc == 2 && !ft_strncmp(argv[1], "julia", 5)) ||
+		(argc == 4 && !ft_strncmp(argv[1], "julia", 5)))
 	{
+		printf("DEBUG: Entrou no bloco JULIA\n");
 		return (JULIA);
 	}
 	else
-		return (MANDELBROT);
+	{
+		printf("DEBUG: Entrou no bloco MANDELBROT\n");
+		return (MANDELBROT);		
+	}
 }
 
 int	main(int argc, char *argv[])
