@@ -73,6 +73,8 @@ int					ft_calculate_mandelbrot(t_complex c, double real_part,
 						double complex_part);
 int					if_mandelbrot(t_complex c);
 void				ft_key_hook(mlx_key_data_t key, t_image_info *info);
+void				ft_scroll_hook(double xdelta, double ydelta,
+						t_image_info *info);
 t_complex			ft_julia(t_complex z, t_complex c);
 int					if_julia(t_complex c, t_complex z, int max_iter);
 t_fractal_type		determine_fractal_type(int argc, char *argv[]);

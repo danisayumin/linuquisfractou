@@ -86,6 +86,7 @@ int	main(int argc, char *argv[])
 	}
 	initialize_image(info);
 	mlx_key_hook(info->mlx, (mlx_keyfunc)ft_key_hook, info);
+	mlx_scroll_hook(info->mlx, (mlx_scrollfunc)ft_scroll_hook, info);
 	mlx_loop(info->mlx);
 	mlx_terminate(info->mlx);
 	return (EXIT_SUCCESS);
