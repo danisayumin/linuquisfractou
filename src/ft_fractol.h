@@ -23,6 +23,7 @@
 # include <unistd.h>
 # include "../MLX42/include/MLX42/MLX42.h"
 # include <stdio.h>
+
 typedef struct s_complex
 {
 	double	real;

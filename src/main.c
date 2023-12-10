@@ -58,8 +58,8 @@ void	initialize_info(int argc, char *argv[], mlx_t *mlx)
 t_fractal_type	determine_fractal_type(int argc, char *argv[])
 {
 	printf("DEBUG: argc = %d, argv[1] = %s\n", argc, argv[1]);
-	if ((argc == 2 && !ft_strncmp(argv[1], "julia", 5)) ||
-		(argc == 4 && !ft_strncmp(argv[1], "julia", 5)))
+	if ((argc == 2 && !ft_strncmp(argv[1], "julia", 5))
+		|| (argc == 4 && !ft_strncmp(argv[1], "julia", 5)))
 	{
 		printf("DEBUG: Entrou no bloco JULIA\n");
 		return (JULIA);
@@ -67,7 +67,7 @@ t_fractal_type	determine_fractal_type(int argc, char *argv[])
 	else
 	{
 		printf("DEBUG: Entrou no bloco MANDELBROT\n");
-		return (MANDELBROT);		
+		return (MANDELBROT);
 	}
 }
 
