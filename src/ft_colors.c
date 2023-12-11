@@ -6,7 +6,7 @@
 /*   By: dsayumi- <dsayumi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/10 01:06:28 by danielasayu       #+#    #+#             */
-/*   Updated: 2023/12/10 16:24:27 by dsayumi-         ###   ########.fr       */
+/*   Updated: 2023/12/11 01:22:50 by dsayumi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,8 +40,8 @@ void	generate_gradient_palette(t_color colors[], int num_colors,
 
 t_complex	ft_init_c(uint32_t x, uint32_t y, t_image_info *info)
 {
-	t_range	in_x ;
-	t_range	in_y ;
+	t_range	in_x;
+	t_range	in_y;
 	t_range	out_x;
 	t_range	out_y;
 

@@ -6,7 +6,7 @@
 /*   By: dsayumi- <dsayumi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:38:22 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/12/10 16:33:26 by dsayumi-         ###   ########.fr       */
+/*   Updated: 2023/12/11 05:54:12 by dsayumi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,4 +58,12 @@ double	ft_atof(char *str)
 		str++;
 	}
 	return (res = res / deccount * sign);
+}
+
+int	is_valid_number(const char *str)
+{
+	char	*endptr;
+
+	strtod(str, &endptr);
+	return (*endptr == '\0');
 }

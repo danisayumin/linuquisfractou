@@ -1,8 +1,8 @@
-NAME	=	fractoys
+NAME	=	fractol
 
 
 CC		=	cc
-CFLAGS	=	-Wall -Wextra -Werror -O3
+CFLAGS	=	-Wall -Wextra -Werror -g3
 DEBUG	=	-g3 -fsanitize=address -DDEBUG_FLAG=1 #-fsanitize=address
 RM		=	rm -f
 
@@ -34,25 +34,13 @@ MLX42_DIR	=	MLX42
 LIBRARYS	+=	MLX42.lib
 INC_DIR		+=	-I$(MLX42_DIR)/include/MLX42
 ifeq ($(shell uname), Darwin)
-#LIBFLAGS	+= -lglfw -L"/Users/$(USER)/.brew/opt/glfw/lib/"
 LIBFLAGS	+= -lglfw -L"/opt/homebrew/Cellar/glfw/3.3.8/lib/"
 else
 LIBFLAGS	+= -ldl -lglfw -pthread -lm
 endif
 
-
-# libs: $(COMPILE) $(LIBRARYS)
-# 	$(MAKE) $(NAME)
-
 all: $(NAME)
-
-# debug: 
-# 	$(MAKE) DEBUG_FLAG=1 libs
-
-# $(LIBRARYS): %.lib:
-# 	@echo "00000000000$($*_DIR)"
-# 	cmake -C $($*_DIR) $(LIB_DEBUG_FLAG)
-# 	@cp -p $($*_DIR)/$($*) .
+bonus: all
 
 $(NAME): $(OBJ)
 	@printf "$(COLOR_INFO)$(EMOJI_INFO)  Compiling $(NAME)...$(COLOR_RESET)\t"
@@ -75,21 +63,20 @@ norm:
 	@norminette $(SRCS) incl/fractol.h libft
 
 $(OBJ): %.o: %.c
-	$(CC) $(CFLAGS) -c -o $@ $< $(INC_DIR)
+	@$(CC) $(CFLAGS) -c -o $@ $< $(INC_DIR)
 
 clean:
-	$(RM) $(OBJ)
+	@$(RM) $(OBJ)
 
-fclean: clean $(LIBRARYS:%=%.clean)
-	$(RM) $($(LIBRARYS:%.lib=%))
-	$(RM) $(NAME)
+fclean: clean
+	@$(RM) $($(LIBRARYS:%.lib=%))
+	@$(RM) $(NAME)
 
 $(LIBRARYS:%=%.clean): %.lib.clean:
-	$(RM) $($*)
+	@$(RM) $($*)
 	@$(MAKE) -C $($*_DIR) fclean
-	$(RM) $*.lib
+	@$(RM) $*.lib
 
-re: fclean
-	$(MAKE) libs
+re: fclean all re
 
-.PHONY: all clean fclean re
+.PHONY: bonus norm all clean fclean re

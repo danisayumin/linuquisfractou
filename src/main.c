@@ -6,7 +6,7 @@
 /*   By: dsayumi- <dsayumi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:38:05 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/12/10 17:07:45 by dsayumi-         ###   ########.fr       */
+/*   Updated: 2023/12/11 05:53:00 by dsayumi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,58 +36,57 @@ void	initialize_info(t_image_info *info, int argc, char *argv[])
 	info->offset_x = 0.0;
 	info->offset_y = 0.0;
 	info->current_fractal = determine_fractal_type(argc, argv);
-	if (info->current_fractal == JULIA)
+	if (info->current_fractal == JULIA && argc >= 3)
 	{
-		printf("DEBUG: Entrou no bloco JULIA\n");
-		if (argc >= 4)
+		if (!is_valid_number(argv[2]))
 		{
-			printf("DEBUG: Entrou no bloco JULIA argc >= 4\n");
-			info->julia_constant.real = atof(argv[3]);
+			ft_putstr_fd("Invalid Julia constant real part.\n", 2);
+			exit(EXIT_FAILURE);
 		}
-		if (argc >= 5)
+			info->julia_constant.real = atof(argv[2]);
+		if (info->current_fractal == JULIA && argc >= 4)
 		{
-			printf("DEBUG: Entrou no bloco JULIA argc >= 5\n");
-			info->julia_constant.imag = atof(argv[4]);
+			if (!is_valid_number(argv[3]))
+			{
+				ft_putstr_fd("Invalid Julia constant imaginary part.\n", 2);
+				exit(EXIT_FAILURE);
+			}
 		}
+			info->julia_constant.imag = atof(argv[3]);
 	}
 }
 
 t_fractal_type	determine_fractal_type(int argc, char *argv[])
 {
-	printf("DEBUG: argc = %d, argv[1] = %s\n", argc, argv[1]);
-	if ((argc == 2 && !ft_strncmp(argv[1], "julia", 5))
-		|| (argc == 4 && !ft_strncmp(argv[1], "julia", 5)))
+	if ((argc == 4 && !ft_strncmp(argv[1], "julia", 5)))
 	{
-		printf("DEBUG: Entrou no bloco JULIA\n");
 		return (JULIA);
 	}
 	else
-	{
-		printf("DEBUG: Entrou no bloco MANDELBROT\n");
 		return (MANDELBROT);
-	}
 }
 
 int	main(int argc, char *argv[])
 {
 	t_image_info	*info;
 
-	info = malloc(sizeof(t_image_info));
-	initialize_info(info, argc, argv);
-
-	if (argc != 2 && !(argc == 4 && !ft_strncmp(argv[1], "julia", 5)))
-		return (EXIT_FAILURE);
-	info->mlx = mlx_init(1024, 1024,
-			fractal_type_to_str(determine_fractal_type(argc, argv)), true);
-	if (!info->mlx)
+	if ((argc == 4 && (!ft_strncmp(argv[1], "julia", 5)))
+		|| (argc == 2 && (!ft_strncmp(argv[1], "mandelbrot", 10))))
 	{
-		ft_putstr_fd("DEU RUIM AQUI", 2);
+		info = malloc(sizeof(t_image_info));
+		initialize_info(info, argc, argv);
+		info->mlx = mlx_init(1024, 1024,
+				fractal_type_to_str(determine_fractal_type(argc, argv)), true);
+		initialize_image(info);
+		mlx_key_hook(info->mlx, (mlx_keyfunc)ft_key_hook, info);
+		mlx_scroll_hook(info->mlx, (mlx_scrollfunc)ft_scroll_hook, info);
+		mlx_loop(info->mlx);
+		mlx_terminate(info->mlx);
+	}
+	else
+	{
+		ft_putstr_fd("Usage: ./fractol [fractal type] [julia constant]\n", 2);
 		return (EXIT_FAILURE);
 	}
-	initialize_image(info);
-	mlx_key_hook(info->mlx, (mlx_keyfunc)ft_key_hook, info);
-	mlx_scroll_hook(info->mlx, (mlx_scrollfunc)ft_scroll_hook, info);
-	mlx_loop(info->mlx);
-	mlx_terminate(info->mlx);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: dsayumi- <dsayumi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:38:22 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/12/10 16:56:07 by dsayumi-         ###   ########.fr       */
+/*   Updated: 2023/12/11 05:41:46 by dsayumi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,6 @@
 # include <stdbool.h>
 # include <unistd.h>
 # include "../MLX42/include/MLX42/MLX42.h"
-# include <stdio.h>
 
 typedef struct s_complex
 {
@@ -81,5 +80,7 @@ t_fractal_type		determine_fractal_type(int argc, char *argv[]);
 void				ft_verify_fractal(uint32_t x, uint32_t y,
 						t_image_info *info, t_color palette[]);
 double				ft_atof(char *str);
+size_t				ft_strlen(const char *s);
+int					is_valid_number(const char *str);
 
 #endif
