@@ -43,19 +43,20 @@ all: $(NAME)
 bonus: all
 
 $(NAME): $(OBJ)
+	cd $(MLX42_DIR) && cmake -B build -DDEBUG=1
+	cd $(MLX42_DIR) && cmake --build build -j4
+	cp $(MLX42_DIR)/build/libmlx42.a ./src
 	@printf "$(COLOR_INFO)$(EMOJI_INFO)  Compiling $(NAME)...$(COLOR_RESET)\t"
 	$(CC) $(CFLAGS) $(OBJ) $(LIBFLAGS) $(INC_DIR) -o $@
 	@sleep 0.25
 	@printf "✅\n"
 
-$(MLX):
+$(MLX42_DIR):
 	@printf "$(COLOR_INFO)$(EMOJI_INFO)  Initializing submodules...$(COLOR_RESET)\t"
 	@git submodule update --init --recursive
 	@sleep 0.25
 	@printf "✅\n"
 	@printf "$(COLOR_INFO)$(EMOJI_INFO)  Building MLX42...$(COLOR_RESET)\t\t"
-	@cmake -S MLX42 -B MLX42/build -DGLFW_FETCH=1
-	@cmake --build MLX42/build --parallel
 	@sleep 0.25
 	@printf "✅\n"
 
@@ -67,7 +68,7 @@ $(OBJ): %.o: %.c
 
 clean:
 	@$(RM) $(OBJ)
-
+	@$(RM) ./src/libmlx42.a
 fclean: clean
 	@$(RM) $($(LIBRARYS:%.lib=%))
 	@$(RM) $(NAME)
@@ -77,6 +78,6 @@ $(LIBRARYS:%=%.clean): %.lib.clean:
 	@$(MAKE) -C $($*_DIR) fclean
 	@$(RM) $*.lib
 
-re: fclean all re
+re: fclean all
 
 .PHONY: bonus norm all clean fclean re

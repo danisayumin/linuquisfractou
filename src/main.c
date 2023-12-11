@@ -6,7 +6,7 @@
 /*   By: dsayumi- <dsayumi-@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/20 21:38:05 by dsayumi-          #+#    #+#             */
-/*   Updated: 2023/12/11 05:53:00 by dsayumi-         ###   ########.fr       */
+/*   Updated: 2023/12/11 06:37:28 by dsayumi-         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,14 +33,13 @@ void	initialize_info(t_image_info *info, int argc, char *argv[])
 	info->image = NULL;
 	info->scale_x = 1.0;
 	info->scale_y = 1.0;
-	info->offset_x = 0.0;
-	info->offset_y = 0.0;
 	info->current_fractal = determine_fractal_type(argc, argv);
 	if (info->current_fractal == JULIA && argc >= 3)
 	{
 		if (!is_valid_number(argv[2]))
 		{
 			ft_putstr_fd("Invalid Julia constant real part.\n", 2);
+			free(info);
 			exit(EXIT_FAILURE);
 		}
 			info->julia_constant.real = atof(argv[2]);
@@ -49,6 +48,7 @@ void	initialize_info(t_image_info *info, int argc, char *argv[])
 			if (!is_valid_number(argv[3]))
 			{
 				ft_putstr_fd("Invalid Julia constant imaginary part.\n", 2);
+				free(info);
 				exit(EXIT_FAILURE);
 			}
 		}
@@ -88,5 +88,4 @@ int	main(int argc, char *argv[])
 		ft_putstr_fd("Usage: ./fractol [fractal type] [julia constant]\n", 2);
 		return (EXIT_FAILURE);
 	}
-	return (EXIT_SUCCESS);
 }
